@@ -4,14 +4,10 @@
       <div id="logo">
         <img style="width: 300px; height: 70px;" src="@/assets/heap-underdrip-logo.png">
       </div>
-      <div class="search">
-        <form class="pure-form">
-          <i class="fas fa-search"></i><input v-model="searchText" />
-        </form>
-      </div>
       <div id="nav">
-        <router-link to="/">Home</router-link> |
-        <router-link to="/about">About</router-link>
+        <router-link to="/">Topics</router-link> |
+        <router-link to="/questions">Questions</router-link> |
+        <router-link to="/ask">Ask a Question</router-link>
       </div>
     </div>
 
@@ -27,7 +23,7 @@
         <img id='signature' src='@/assets/signature.png'>
       </div>
       <div class='footer-item footer-three'>
-        <p>my <a href='https://github.com/jeffxhansen/TellMe.git'>Github</a> Repo</p>
+        <p>my <a href='https://github.com/jeffxhansen/HeapUnderdrip.git'>Github</a> Repo</p>
       </div>
     </div>
   </div>
@@ -35,6 +31,7 @@
 
 
 <style>
+
 .header {
   display: flex;
   flex-direction: row;
@@ -45,7 +42,6 @@
   width: 100%;
 }
 
-.header
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -55,16 +51,20 @@
 }
 
 #nav {
+  margin-left: auto;
+  margin-right: 40px;
   padding: 30px;
+  display: flex;
 }
 
 #nav a {
   font-weight: bold;
   color: #2c3e50;
+  padding: 0 14px;
 }
 
 #nav a.router-link-exact-active {
-  color: #42b983;
+  color: #0070c0;
 }
 
 .footer {
@@ -101,11 +101,12 @@
 
 
 form {
-  margin-top: 10px;
+  margin-top: 20px;
   border: 1px solid #ccc;
   border-radius: 4px;
   width: 100%;
   display: table;
+  margin-left: 16px;
 }
 
 i {
@@ -119,6 +120,38 @@ input {
   border: none !important;
   box-shadow: none !important;
   width: 100%;
-  height: 40px;
+  height: 30px;
+}
+
+::placeholder {
+  color: #aaa;
+}
+
+/* Tablet Styles */
+@media only screen and (min-width: 300px) and (max-width: 750px) {
+    .topics-grid {
+        width: 100%;
+    }
+      
+    .selection {
+        width: 200px;
+    }
+
+    .response {
+        width: 90%;
+    }
+
+    .header {
+      flex-direction: column;
+    }
+
+    #nav {
+      margin: 0 auto;
+    }
+
+    #logo {
+      height: 50;
+      width: 200;
+    }
 }
 </style>
