@@ -2,29 +2,37 @@
 <div class="ask">
   <h1>Ask a question form</h1>
   <div class="wrapper">
-    <div class="ask-forum">
-      <div class="search">
-        <form class="pure-form">
-          <i class="fas fa-search"></i><input v-model="filter" placeholder="Topic: "/>
-        </form>
+    <div v-if="creating">
+      <div class="ask-forum">
+        <div class="search">
+          <form class="pure-form">
+            <i class="fas fa-search"></i><input v-model="filter" placeholder="Topic: "/>
+          </form>
+        </div>
+        <div class="search">
+          <form class="pure-form">
+            <i class="fas fa-search"></i><input v-model="name" placeholder="Name: "/>
+          </form>
+        </div>
+        <div class="search">
+          <form class="pure-form">
+            <i class="fas fa-search"></i><input v-model="title" placeholder="Question title: "/>
+          </form>
+        </div>
+        <div class="search">
+          <form class="pure-form">
+            <i class="fas fa-search"></i><input v-model="body" placeholder="Question body: "/>
+          </form>
+        </div>
+        <button id="questionSubmit" v-on:click.prevent="addQuestion()">Submit</button>
       </div>
-      <div class="search">
-        <form class="pure-form">
-          <i class="fas fa-search"></i><input v-model="name" placeholder="Name: "/>
-        </form>
-      </div>
-      <div class="search">
-        <form class="pure-form">
-          <i class="fas fa-search"></i><input v-model="title" placeholder="Question title: "/>
-        </form>
-      </div>
-      <div class="search">
-        <form class="pure-form">
-          <i class="fas fa-search"></i><input v-model="body" placeholder="Question body: "/>
-        </form>
-      </div>
-      <button id="questionSubmit" v-on:click.prevent="addQuestion()">Submit</button>
     </div>
+    <div v-else>
+      <p>Thank you for submitting a question! The <router-link to="/questions">"Questions"</router-link> page has been update, and you can see it there!</p>
+      <p>Also, if you selected a topic that was not already present, it has been added to the <router-link to="/">"Topics"</router-link> page!</p>
+      <p>Finally, if you want to submit another questions just select <router-link to="/questions">"Ask a Question"</router-link></p>
+    </div>
+
   </div>
 </div>
 </template>
@@ -35,6 +43,7 @@ export default {
   name: 'Ask',
   data() {
     return {
+      creating: true,
       filter: '',
       name: '',
       title: '',
@@ -78,7 +87,8 @@ export default {
 
       this.$root.$data.questions.push(question);
       this.incrementQuestionCount(this.filter);
-      
+       
+       this.creating = !this.creating;
       
     }
   },
@@ -98,6 +108,8 @@ toggle between hiding and showing the dropdown content*/
 </script>
 
 <style scoped>
+
+
 .wrapper {
   display: flex;
   margin: 10px auto;
