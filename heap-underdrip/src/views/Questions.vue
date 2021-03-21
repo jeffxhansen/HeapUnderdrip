@@ -68,10 +68,20 @@ export default {
     showDropdown() {
       document.getElementById("myDropdown").classList.toggle("show");
     },
+    decrementTopic(name) {
+      for (let i = 0; i < this.$root.$data.topics.length; i++) {
+        if (name === this.$root.$data.topics[i].name) {
+          this.$root.$data.topics[i].numQuestions--;
+          break;
+        }
+      }
+    },
     removeQuestion(index) {
       for (let i = 0; i < this.$root.$data.questions.length; i++) {
         if (index === this.$root.$data.questions[i].id) {
+          this.decrementTopic(this.$root.$data.questions[i].topic);
           this.$root.$data.questions.splice(i, 1);
+          
         }
       }
     },

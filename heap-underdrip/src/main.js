@@ -16,7 +16,7 @@ let data = {
   currName: '',
   currDate: '',
   topics: [
-    { name: "java", numQuestions: 3 },
+    { name: "java", numQuestions: 4 },
     { name: "c++", numQuestions: 1 },
     { name: "html", numQuestions: 4 },
     { name: "css", numQuestions: 2 },
