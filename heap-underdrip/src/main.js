@@ -11,7 +11,7 @@ Vue.config.productionTip = false
 
 let data = {
   topicFilter: '',
-  searchText: '',
+  searchid: 0, text: '',
   currTopic: '',
   currName: '',
   currDate: '',
@@ -32,8 +32,8 @@ let data = {
       title: "What's the object-oriented way to become wealthy?",
       body: "Inheritance",
       responses: [
-        { text: "I think you are wrong", username: "Mr. Nasty", date: 1 },
-        { text: "I think you are right", username: "Mr. NiceGuy", date: 2 }
+        { id: 0, text: "I think you are wrong", username: "Mr. Nasty", date: "March 17th 21, 6:04 pm" },
+        { id: 1, text: "I think you are right", username: "Mr. NiceGuy", date: "April 17th 21, 6:05 pm" }
       ]
     },
     {
@@ -43,8 +43,8 @@ let data = {
       title: "A user interface is like a joke.",
       body: "If you have to explain it then it is not that good.",
       responses: [
-        { text: "I think you are wrong", username: "Mr. Nasty", date: 1 },
-        { text: "I think you are right", username: "Mr. NiceGuy", date: 2 }
+        { id: 0, text: "I think you are wrong", username: "Mr. Nasty", date: "March 17th 21, 6:04 pm" },
+        { id: 1, text: "I think you are right", username: "Mr. NiceGuy", date: "April 17th 21, 6:05 pm" }
       ]
     },
     {
@@ -54,8 +54,8 @@ let data = {
       title: "I was gonna tell you a joke about UDP...",
       body: "...but you might not get it.",
       responses: [
-        { text: "I think you are wrong", username: "Mr. Nasty", date: 1 },
-        { text: "I think you are right", username: "Mr. NiceGuy", date: 2 }
+        { id: 0, text: "I think you are wrong", username: "Mr. Nasty", date: "March 17th 21, 6:04 pm" },
+        { id: 1, text: "I think you are right", username: "Mr. NiceGuy", date: "April 17th 21, 6:05 pm" }
       ]
     },
     {
@@ -65,8 +65,8 @@ let data = {
       title: "Which song would an exception sing?",
       body: "Can't catch me - Avicii",
       responses: [
-        { text: "I think you are wrong", username: "Mr. Nasty", date: 1 },
-        { text: "I think you are right", username: "Mr. NiceGuy", date: 2 }
+        { id: 0, text: "I think you are wrong", username: "Mr. Nasty", date: "March 17th 21, 6:04 pm" },
+        { id: 1, text: "I think you are right", username: "Mr. NiceGuy", date: "April 17th 21, 6:05 pm" }
       ]
     },
     {
@@ -76,8 +76,8 @@ let data = {
       title: "What's the best part about TCP jokes?",
       body: "I get to keep telling them until you get them.",
       responses: [
-        { text: "I think you are wrong", username: "Mr. Nasty", date: 1 },
-        { text: "I think you are right", username: "Mr. NiceGuy", date: 2 }
+        { id: 0, text: "I think you are wrong", username: "Mr. Nasty", date: "March 17th 21, 6:04 pm" },
+        { id: 1, text: "I think you are right", username: "Mr. NiceGuy", date: "April 17th 21, 6:05 pm" }
       ]
     },
     {
@@ -87,8 +87,8 @@ let data = {
       title: "How do you check if a webpage is HTML5?",
       body: "Try it out on Internet Explorer",
       responses: [
-        { text: "I think you are wrong", username: "Mr. Nasty", date: 1 },
-        { text: "I think you are right", username: "Mr. NiceGuy", date: 2 }
+        { id: 0, text: "I think you are wrong", username: "Mr. Nasty", date: "March 17th 21, 6:04 pm" },
+        { id: 1, text: "I think you are right", username: "Mr. NiceGuy", date: "April 17th 21, 6:05 pm" }
       ]
     },
     {
@@ -98,8 +98,8 @@ let data = {
       title: "A SQL query walks into a bar, walks up to two tables and asks...",
       body: "'Can I join you?'",
       responses: [
-        { text: "I think you are wrong", username: "Mr. Nasty", date: 1 },
-        { text: "I think you are right", username: "Mr. NiceGuy", date: 2 }
+        { id: 0, text: "I think you are wrong", username: "Mr. Nasty", date: "March 17th 21, 6:04 pm" },
+        { id: 1, text: "I think you are right", username: "Mr. NiceGuy", date: "April 17th 21, 6:05 pm" }
       ]
     },
     {
@@ -109,8 +109,8 @@ let data = {
       title: "Why did the programmer quit his job?",
       body: "Because he didn't get arrays.",
       responses: [
-        { text: "I think you are wrong", username: "Mr. Nasty", date: 1 },
-        { text: "I think you are right", username: "Mr. NiceGuy", date: 2 }
+        { id: 0, text: "I think you are wrong", username: "Mr. Nasty", date: "March 17th 21, 6:04 pm" },
+        { id: 1, text: "I think you are right", username: "Mr. NiceGuy", date: "April 17th 21, 6:05 pm" }
       ]
     },
     {
@@ -120,8 +120,8 @@ let data = {
       title: "To understand what recursion is...",
       body: "You must first understand what recursion is",
       responses: [
-        { text: "I think you are wrong", username: "Mr. Nasty", date: 1 },
-        { text: "I think you are right", username: "Mr. NiceGuy", date: 2 }
+        { id: 0, text: "I think you are wrong", username: "Mr. Nasty", date: "March 17th 21, 6:04 pm" },
+        { id: 1, text: "I think you are right", username: "Mr. NiceGuy", date: "April 17th 21, 6:05 pm" }
       ]
     },
     {
@@ -131,8 +131,8 @@ let data = {
       title: "How many programmers does it take to change a lightbulb?",
       body: "None that's a hardware problem",
       responses: [
-        { text: "I think you are wrong", username: "Mr. Nasty", date: 1 },
-        { text: "I think you are right", username: "Mr. NiceGuy", date: 2 }
+        { id: 0, text: "I think you are wrong", username: "Mr. Nasty", date: "March 17th 21, 6:04 pm" },
+        { id: 1, text: "I think you are right", username: "Mr. NiceGuy", date: "April 17th 21, 6:05 pm" }
       ]
     },
     {
@@ -142,8 +142,8 @@ let data = {
       title: "The punchline often arrives before the set-up.",
       body: "Do you know the problem with UDP jokes?",
       responses: [
-        { text: "I think you are wrong", username: "Mr. Nasty", date: 1 },
-        { text: "I think you are right", username: "Mr. NiceGuy", date: 2 }
+        { id: 0, text: "I think you are wrong", username: "Mr. Nasty", date: "March 17th 21, 6:04 pm" },
+        { id: 1, text: "I think you are right", username: "Mr. NiceGuy", date: "April 17th 21, 6:05 pm" }
       ]
     },
     {
@@ -153,8 +153,8 @@ let data = {
       title: "There are 10 kinds of people in this world.",
       body: "Those who understand binary, those who don't, and those who weren't expecting a base 3 joke.",
       responses: [
-        { text: "I think you are wrong", username: "Mr. Nasty", date: 1 },
-        { text: "I think you are right", username: "Mr. NiceGuy", date: 2 }
+        { id: 0, text: "I think you are wrong", username: "Mr. Nasty", date: "March 17th 21, 6:04 pm" },
+        { id: 1, text: "I think you are right", username: "Mr. NiceGuy", date: "April 17th 21, 6:05 pm" }
       ]
     },
     {
@@ -164,8 +164,8 @@ let data = {
       title: "What did the router say to the doctor?",
       body: "It hurts when IP.",
       responses: [
-        { text: "I think you are wrong", username: "Mr. Nasty", date: 1 },
-        { text: "I think you are right", username: "Mr. NiceGuy", date: 2 }
+        { id: 0, text: "I think you are wrong", username: "Mr. Nasty", date: "March 17th 21, 6:04 pm" },
+        { id: 1, text: "I think you are right", username: "Mr. NiceGuy", date: "April 17th 21, 6:05 pm" }
       ]
     },
     {
@@ -175,8 +175,8 @@ let data = {
       title: "A programmer puts two glasses on his bedside table before going to sleep.",
       body: "A full one, in case he gets thirsty, and an empty one, in case he doesn’t.",
       responses: [
-        { text: "I think you are wrong", username: "Mr. Nasty", date: 1 },
-        { text: "I think you are right", username: "Mr. NiceGuy", date: 2 }
+        { id: 0, text: "I think you are wrong", username: "Mr. Nasty", date: "March 17th 21, 6:04 pm" },
+        { id: 1, text: "I think you are right", username: "Mr. NiceGuy", date: "April 17th 21, 6:05 pm" }
       ]
     },
     {
@@ -186,8 +186,8 @@ let data = {
       title: "What's the best thing about a Boolean?",
       body: "Even if you're wrong, you're only off by a bit.",
       responses: [
-        { text: "I think you are wrong", username: "Mr. Nasty", date: 1 },
-        { text: "I think you are right", username: "Mr. NiceGuy", date: 2 }
+        { id: 0, text: "I think you are wrong", username: "Mr. Nasty", date: "March 17th 21, 6:04 pm" },
+        { id: 1, text: "I think you are right", username: "Mr. NiceGuy", date: "April 17th 21, 6:05 pm" }
       ]
     },
     {
@@ -197,8 +197,8 @@ let data = {
       title: "If you put a million monkeys at a million keyboards, one of them will eventually write a Java program",
       body: "the rest of them will write Perl",
       responses: [
-        { text: "I think you are wrong", username: "Mr. Nasty", date: 1 },
-        { text: "I think you are right", username: "Mr. NiceGuy", date: 2 }
+        { id: 0, text: "I think you are wrong", username: "Mr. Nasty", date: "March 17th 21, 6:04 pm" },
+        { id: 1, text: "I think you are right", username: "Mr. NiceGuy", date: "April 17th 21, 6:05 pm" }
       ]
     },
     {
@@ -208,8 +208,8 @@ let data = {
       title: "There are 10 types of people in this world...",
       body: "Those who understand binary and those who don't",
       responses: [
-        { text: "I think you are wrong", username: "Mr. Nasty", date: 1 },
-        { text: "I think you are right", username: "Mr. NiceGuy", date: 2 }
+        { id: 0, text: "I think you are wrong", username: "Mr. Nasty", date: "March 17th 21, 6:04 pm" },
+        { id: 1, text: "I think you are right", username: "Mr. NiceGuy", date: "April 17th 21, 6:05 pm" }
       ]
     }
   ],
