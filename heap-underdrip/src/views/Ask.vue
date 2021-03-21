@@ -30,7 +30,7 @@
     <div v-else>
       <p>Thank you for submitting a question! The <router-link to="/questions">"Questions"</router-link> page has been update, and you can see it there!</p>
       <p>Also, if you selected a topic that was not already present, it has been added to the <router-link to="/">"Topics"</router-link> page!</p>
-      <p>Finally, if you want to submit another questions just select <router-link to="/ask">"Ask a Question"</router-link></p>
+      <p>Finally, if you want to submit another questions just select <a v-on:click="refreshPage()"><router-link to="/ask">"Ask a Question"</router-link></a></p>
     </div>
 
   </div>
@@ -72,6 +72,14 @@ export default {
         }
       }
     },
+    refreshPage() {
+      //console.log("refreshed the page");
+      this.creating = !this.creating;
+      //this.$router.go();
+    },
+    toggleCreating() {
+      this.creating = !this.creating;
+    },
     addQuestion() {
       let size = this.$root.$data.questions.length;
       let tempID = size+1;
@@ -88,7 +96,7 @@ export default {
       this.$root.$data.questions.push(question);
       this.incrementQuestionCount(this.filter);
        
-       this.creating = !this.creating;
+      this.toggleCreating();
       
     }
   },
