@@ -30,7 +30,7 @@
     <div v-else>
       <p>Thank you for submitting a question! The <router-link to="/questions">"Questions"</router-link> page has been update, and you can see it there!</p>
       <p>Also, if you selected a topic that was not already present, it has been added to the <router-link to="/">"Topics"</router-link> page!</p>
-      <p>Finally, if you want to submit another questions just select <router-link to="/questions">"Ask a Question"</router-link></p>
+      <p>Finally, if you want to submit another questions just select <router-link to="/ask">"Ask a Question"</router-link></p>
     </div>
 
   </div>
