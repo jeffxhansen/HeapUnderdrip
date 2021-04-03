@@ -1,6 +1,9 @@
 <template>
   <div class="questions">
-    <h1>All Questions</h1>
+    <h1>Welcom to my "completely original" forum website!</h1>
+    <h3>Type in values in the "Topic Filter" or "Search Quesitons" forms to filter the questions</h3>
+    <h4>And please feel free to <a><router-link to="/ask">"Ask a Question"</router-link></a> or reply to a question below!</h4>
+    <!-- <h1>All Questions</h1> -->
     <div class="search">
       <form class="pure-form">
         <i class="fas fa-search"></i><input v-model="topicFilter" placeholder="Topic Filter"/>
@@ -21,8 +24,8 @@
           <div class="info">
             <p>Topic: {{question.topic}}</p>
             <p>Date: {{question.date}}</p>
-            <button v-on-clickaway="" v-on:click="showDropdown()" class="dropbtn">Add Reply</button>
-              <div id="myDropdown" class="dropdown-content">
+            <button v-on-clickaway="" v-on:click="showDropdown(question.id)" class="replyButton dropbtn">Add Reply</button>
+              <div class="myDropdown dropdown-content">
                 <div class="reply-dropdown-item">
                   <form class="pure-form">
                     <i class="fas fa-search"></i><input v-model="userName" placeholder="Name: "/>
@@ -33,7 +36,7 @@
                     <i class="fas fa-search"></i><input v-model="replyContent" placeholder="Reply content: "/>
                   </form>
                 </div>
-                <button v-on:click="addReply(question.id)">submit</button>
+                <button class="replyButton" v-on:click="addReply(question.id)">submit</button>
               </div>
             <button v-on:click="removeQuestion(question.id)" id="resolve">Resolve Question</button>
           </div>
@@ -44,6 +47,18 @@
             <div class="info">
               <p>Name: {{reply.username}}</p>
               <p>Date: {{reply.date}}</p>
+              <button v-on-clickaway="" v-on:click="showEditDropdown(question.id, reply.id)" class="editButton dropbtn">Edit</button>
+              <div class="myEditDropdown edit-dropdown-content">
+                <div class="edit-dropdown-item">
+                  <form class="pure-form">
+                    <i class="fas fa-search"></i><input v-model="editName" placeholder="New name: "/>
+                  </form>
+                  <form class="pure-form">
+                    <i class="fas fa-search"></i><input v-model="editContent" placeholder="New text: "/>
+                  </form>
+                </div>
+                <button class="replyButton" v-on:click="addEdit(question.id, reply.id)">submit</button>
+              </div>
             </div>
           </div>
         </div>
@@ -59,14 +74,29 @@ export default {
   data () {
     return {
       searchText: '',
-      topicFilter: '',
+      topicFilter: '',//this.$root.$data.topicFilterGlobal,
       userName: '',
-      replyContent: ''
+      replyContent: '',
+      editContent: '',
+      editName: ''
     }
   },
   methods: {
-    showDropdown() {
-      document.getElementById("myDropdown").classList.toggle("show");
+    showDropdown(index) {
+      document.getElementsByClassName("myDropdown")[index].classList.toggle("show");
+    },
+    showEditDropdown(questionIndex, replyIndex) {
+      let index = 0;
+      let counter = 0;
+      for (let question of this.$root.$data.questions) {
+        for (let reply of question.responses) {
+          if (question.id === questionIndex && reply.id === replyIndex) index = counter;
+          else counter++;
+        }
+      }
+      let elements = document.getElementsByClassName("myEditDropdown");
+      console.log(elements);
+      document.getElementsByClassName("myEditDropdown")[index].classList.toggle("show");
     },
     decrementTopic(name) {
       for (let i = 0; i < this.$root.$data.topics.length; i++) {
@@ -90,37 +120,76 @@ export default {
         if (index === this.$root.$data.questions[i].id) {
           let tempID = this.$root.$data.questions[i].responses.length;
           let currDate = new Date();
-          currDate = moment(currDate).format("MMMM Do YY, h:mm a");
+          currDate = moment(new Date()).format("MMMM Do YY, h:mm a");
           this.$root.$data.questions[i].responses.push({id: tempID, text: this.replyContent, 
           username: this.userName, date: currDate})
           break;
         }
       }
-      document.getElementById("myDropdown").classList.toggle("show");
-    }
+      document.getElementsByClassName("myDropdown")[index].classList.toggle("show");
+    },
+    addEdit(questionIndex, replyIndex) {
+      let index = 0;
+      let counter = 0;
+      for (let question of this.$root.$data.questions) {
+        for (let reply of question.responses) {
+          if (question.id === questionIndex && reply.id === replyIndex) {
+            index = counter;
+            reply.text = this.editContent;
+            reply.username = this.editName;
+            let currDate = new Date();
+            currDate = moment(new Date()).format("MMMM Do YY, h:mm a");   
+            reply.date = currDate;        
+          }
+          else counter++;
+        }
+      }
+      this.editContent = '';
+      this.editName = '';
+      /*for (let i = 0; i < this.$root.$data.questions.length; i++) {
+        if (questionIndex === this.$root.$data.questions[i].id) {
+          for (let j = 0; j < this.$root.$data.questions[i].responses.length; j++) {
+            if (replyIndex === this.$root.$data.questions[i].responses[j].id) {
+              this.$root.$data.questions[i].responses[j].text = this.editContent;
+              this.$root.$data.questions[i].responses[j].username = this.editName;
+              let currDate = new Date();
+              currDate = moment(currDate).format("MMMM Do YY, h:mm a");
+              this.$root.$data.questions[i].responses[j].date = currDate;
+            }
+          }
+          break;
+        }
+      }*/
+      document.getElementsByClassName("myEditDropdown")[index].classList.toggle("show");
+    },
   },
+  /*showEditDropdown(questionIndex, replyIndex) {
+    let index = questionIndex;
+    index = replyIndex;
+    let elements = document.getElementsByClassName("myEditDropdown");
+    console.log(elements);
+    document.getElementsByClassName("myEditDropdown")[index].classList.toggle("show");
+  },*/
   computed: {
     questions() {
+      let topicString = this.$root.$data.topicFilterGlobal;
       return this.$root.$data.questions.filter(question => 
-      question.title.toLowerCase().search(this.searchText.toLowerCase()) >= 0 && 
-      question.topic.toLowerCase().search(this.topicFilter.toLowerCase()) >= 0);
+        question.title.toLowerCase().search(this.searchText.toLowerCase()) >= 0 && 
+        question.title.toLowerCase().search(topicString.toLowerCase()) >= 0 && 
+        question.topic.toLowerCase().search(this.topicFilter.toLowerCase()) >= 0);
+      /*if (this.$root.$data.topicFilterGlobal != "") {
+        let topicString = this.$root.$data.topicFilterGlobal;
+        return this.$root.$data.questions.filter(question => 
+          question.title.toLowerCase().search(topicString.toLowerCase()) >= 0);
+      }
+      else {
+        return this.$root.$data.questions.filter(question => 
+        question.title.toLowerCase().search(this.searchText.toLowerCase()) >= 0 && 
+        question.topic.toLowerCase().search(this.topicFilter.toLowerCase()) >= 0);
+      }*/
     },
   }
 }
-
-// Close the dropdown if the user clicks outside of it
-// window.onclick = function(event) {
-//   if (!event.target.matches('.dropbtn')) {
-//     var dropdowns = document.getElementsByClassName("dropdown-content");
-//     var i;
-//     for (i = 0; i < dropdowns.length; i++) {
-//       var openDropdown = dropdowns[i];
-//       if (openDropdown.classList.contains('show')) {
-//         openDropdown.classList.remove('show');
-//       }
-//     }
-//   }
-// }
 </script>
 
 <style scoped>
@@ -152,6 +221,16 @@ export default {
   z-index: 3;
 }
 
+.edit-dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 300px;
+  overflow: auto;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 3;
+}
+
 .dropdown-content a {
   color: black;
   padding: 12px 16px;
@@ -162,6 +241,10 @@ export default {
 .dropdown a:hover {background-color: #ddd;}
 
 .reply-dropdown-item {
+  width: 500px;
+}
+
+.edit-dropdown-item {
   width: 500px;
 }
 
@@ -269,7 +352,7 @@ input {
   font-style: italic;
 }
 
-.info button {
+.replyButton {
   background-color: #4096d3ab;
   border: none;
   border-radius: 10px;
@@ -284,6 +367,15 @@ input {
   border-radius: 10px;
   height: 40px;
   width: 70px;
+  font-style: none;
+}
+
+.editButton {
+  background-color: #4096d365;
+  border: none;
+  border-radius: 10px;
+  height: 30px;
+  width: 40px;
   font-style: none;
 }
 
@@ -312,16 +404,22 @@ input {
   }
 
   .reply-dropdown-item {
-  width: 300px;
-}
+    width: 300px;
+  }
+  .edit-dropdown-item {
+    width: 300px;
+  }
 }
 @media only screen and (min-width: 501px) and (max-width: 600px) {
   #question {
     width: 400px;
   }
   .reply-dropdown-item {
-  width: 400px;
-}
+    width: 400px;
+  }
+  .edit-dropdown-item {
+    width: 400px;
+  }
 }
 @media only screen and (min-width: 601px) and (max-width: 700px) {
   #question {

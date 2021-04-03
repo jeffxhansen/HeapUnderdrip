@@ -5,8 +5,8 @@
         <img style="width: 300px; height: 70px;" src="@/assets/heap-underdrip-logo.png">
       </div>
       <div id="nav">
-        <router-link to="/">Topics</router-link> |
-        <router-link to="/questions">Questions</router-link> |
+        <!-- <router-link to="/">Topics</router-link> | -->
+        <router-link :to="{ path: '/questions', params: this.$root.$data.topicFilterGlobal }">Questions</router-link> |
         <router-link to="/ask">Ask a Question</router-link>
       </div>
     </div>
@@ -67,37 +67,7 @@
   color: #0070c0;
 }
 
-.footer {
-    margin-top: 80px;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-direction: column;
-    background-color:#fafafa;
-}
 
-.footer-item img {
-  display: flex;
-  align-self: center;
-  width: 40%;
-  margin: auto;
-}
-
-.footer-item p {
-  text-align: center;
-  line-height: 26px;
-}
-  
-.footer-item {
-  padding: 10px 40px;
-  align-items: center;
-}
-
-.footer-item a {
-  font-weight: bolder;
-  color: black;
-}
 
 
 form {

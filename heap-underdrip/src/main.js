@@ -3,26 +3,27 @@ import App from './App.vue'
 import router from './router'
 import store from "./store"
 import vSelect from 'vselect-component'
+import moment from 'moment'
 
 Vue.use(vSelect)
 Vue.use(require("moment"));
 
+moment.suppressDeprecationWarnings = true;
+
 Vue.config.productionTip = false
 
 let data = {
-  topicFilter: '',
+  topicFilterGlobal: '',
   searchid: 0, text: '',
   currTopic: '',
   currName: '',
   currDate: '',
   topics: [
-    { name: "java", numQuestions: 4 },
-    { name: "c++", numQuestions: 1 },
-    { name: "html", numQuestions: 4 },
-    { name: "css", numQuestions: 2 },
-    { name: "linux", numQuestions: 1 },
-    { name: "javascript", numQuestions: 1 },
-    { name: "other", numQuestions: 4 }
+    { name: 'java', numQuestions: 4 },
+    { name: 'html', numQuestions: 4 },
+    { name: 'css', numQuestions: 2 },
+    { name: 'linux', numQuestions: 1 },
+    { name: 'other', numQuestions: 4 }
   ],
   questions: [
     {
@@ -64,17 +65,6 @@ let data = {
       date: "January 12th 21, 8:32 pm",
       title: "Which song would an exception sing?",
       body: "Can't catch me - Avicii",
-      responses: [
-        { id: 0, text: "I think you are wrong", username: "Mr. Nasty", date: "March 17th 21, 6:04 pm" },
-        { id: 1, text: "I think you are right", username: "Mr. NiceGuy", date: "April 17th 21, 6:05 pm" }
-      ]
-    },
-    {
-      id: 4,
-      topic: "c++",
-      date: "March 20th 21, 9:29 pm",
-      title: "What's the best part about TCP jokes?",
-      body: "I get to keep telling them until you get them.",
       responses: [
         { id: 0, text: "I think you are wrong", username: "Mr. Nasty", date: "March 17th 21, 6:04 pm" },
         { id: 1, text: "I think you are right", username: "Mr. NiceGuy", date: "April 17th 21, 6:05 pm" }
@@ -152,17 +142,6 @@ let data = {
       date: "March 20th 21, 9:29 pm",
       title: "There are 10 kinds of people in this world.",
       body: "Those who understand binary, those who don't, and those who weren't expecting a base 3 joke.",
-      responses: [
-        { id: 0, text: "I think you are wrong", username: "Mr. Nasty", date: "March 17th 21, 6:04 pm" },
-        { id: 1, text: "I think you are right", username: "Mr. NiceGuy", date: "April 17th 21, 6:05 pm" }
-      ]
-    },
-    {
-      id: 12,
-      topic: "javascript",
-      date: "January 12th 21, 8:32 pm",
-      title: "What did the router say to the doctor?",
-      body: "It hurts when IP.",
       responses: [
         { id: 0, text: "I think you are wrong", username: "Mr. Nasty", date: "March 17th 21, 6:04 pm" },
         { id: 1, text: "I think you are right", username: "Mr. NiceGuy", date: "April 17th 21, 6:05 pm" }

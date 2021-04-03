@@ -5,12 +5,12 @@
     <div class="wrapper">
       <div class="topics-grid">
         <div class="topic" v-for="topic in topics" :key="topic.name">
-          <router-link to="/questions" v-on:click="setFilter(topic.name)" class='selection noSelect'>
+          <div v-on:click="setFilter(topic.name)"><router-link to="/questions" class='selection noSelect'>
             <span>
               <h2>{{topic.name}}</h2>
               <h5>Questions: {{ topic.numQuestions }}</h5>
             </span>
-          </router-link>
+          </router-link></div>
         </div>
      </div>
     </div>
@@ -22,7 +22,7 @@ export default {
   name: 'Topics',
   methods: {
     setFilter(name) {
-      this.$root.$data.topicFilter = name;
+      this.$root.$data.topicFilterGlobal = name;
     }
   },
   computed: {
