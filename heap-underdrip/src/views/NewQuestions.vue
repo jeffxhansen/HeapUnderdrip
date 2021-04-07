@@ -15,53 +15,24 @@
       </form>
     </div>
     <div class="wrapper">
-      <div v-for="question in questions" :key="question.id">
-        <div id="question">
-          <div class="content">
-            <h4>{{question.title}}</h4>
-            <p>{{question.body}}</p>
-          </div>
-          <div class="info">
-            <p>Topic: {{question.topic}}</p>
-            <p>Date: {{question.date}}</p>
-            <button v-on-clickaway="" v-on:click="showDropdown(question.id)" class="replyButton dropbtn">Add Reply</button>
-              <div class="myDropdown dropdown-content">
-                <div class="reply-dropdown-item">
-                  <form class="pure-form">
-                    <i class="fas fa-search"></i><input v-model="userName" placeholder="Name: "/>
-                  </form>
-                </div>
-                <div class="reply-dropdown-item">
-                  <form class="pure-form">
-                    <i class="fas fa-search"></i><input v-model="replyContent" placeholder="Reply content: "/>
-                  </form>
-                </div>
-                <button class="replyButton" v-on:click="addReply(question.id)">submit</button>
+      <div v-for="question in filteredQuestions" :key="question.id">
+          <div id="question">
+            <router-link class="question-link" :to="{ path: '/singleQuestion', query: { questionID: question.id } }">
+              <div class="content">
+                <h4>{{question.title}}</h4>
+                <p>{{question.body}}</p>
               </div>
-            <button v-on:click="removeQuestion(question.id)" id="resolve">Resolve Question</button>
-          </div>
-          <div class="replies" v-for="reply in question.responses" :key="reply.id">
-            <div class="reply">
-              <p>{{reply.text}}</p>
-            </div>
+            </router-link>
             <div class="info">
-              <p>Name: {{reply.username}}</p>
-              <p>Date: {{reply.date}}</p>
-              <button v-on-clickaway="" v-on:click="showEditDropdown(question.id, reply.id)" class="editButton dropbtn">Edit</button>
-              <div class="myEditDropdown edit-dropdown-content">
-                <div class="edit-dropdown-item">
-                  <form class="pure-form">
-                    <i class="fas fa-search"></i><input v-model="editName" placeholder="New name: "/>
-                  </form>
-                  <form class="pure-form">
-                    <i class="fas fa-search"></i><input v-model="editContent" placeholder="New text: "/>
-                  </form>
-                </div>
-                <button class="replyButton" v-on:click="addEdit(question.id, reply.id)">submit</button>
-              </div>
+              <p>Topic: {{question.topic}}</p>
+              <p>Date: {{question.date}}</p>
+              <button v-on:click="removeQuestion(question.id)" id="resolve">Resolve Question</button>
             </div>
+            <router-link class="replies-link" :to="{ path: '/singleQuestion', query: { questionID: question.id } }">Replies...</router-link>
+            <!-- <div class="replies" v-for="reply in getReplies(question.id)" :key="reply.id">
+              <p>{{reply.id}}}</p>
+            </div> -->
           </div>
-        </div>
       </div>
     </div>
   </div>
@@ -71,7 +42,7 @@
 import moment from 'moment'
 import axios from 'axios'
 export default {
-  name: 'Questions',
+  name: 'NewQuestions',
   data () {
     return {
       searchText: '',
@@ -79,10 +50,27 @@ export default {
       userName: '',
       replyContent: '',
       editContent: '',
-      editName: ''
+      editName: '',
+      dbQuestionID: '',
+      dbQuestions: [],
+      dbReplies: []
     }
   },
+  created() {
+    this.getQuestions();
+    this.dbQuestionID = this.thisQuestionID;
+  },
   methods: {
+    async getQuestions() {
+      try {
+        const response = await axios.get("/api/questions");
+        this.dbQuestions = response.data.questions;
+        console.log(this.dbQuestions);
+      }
+      catch (error) {
+        console.log(error);
+      }
+    },
     showDropdown(index) {
       document.getElementsByClassName("myDropdown")[index].classList.toggle("show");
     },
@@ -107,13 +95,13 @@ export default {
         }
       }
     },
-    removeQuestion(index) {
-      for (let i = 0; i < this.$root.$data.questions.length; i++) {
-        if (index === this.$root.$data.questions[i].id) {
-          this.decrementTopic(this.$root.$data.questions[i].topic);
-          this.$root.$data.questions.splice(i, 1);
-          
-        }
+    async removeQuestion(index) {
+      try {
+        await axios.delete(`/api/questions/${index}`);
+        this.getQuestions();
+      }
+      catch (error) {
+        console.log(error);
       }
     },
     addReply(index) {
@@ -171,7 +159,7 @@ export default {
     console.log(elements);
     document.getElementsByClassName("myEditDropdown")[index].classList.toggle("show");
   },*/
-  async getQuetions() {
+  async getQuestions() {
     try {
       const response = await axios.get("/api/questions");
       return response.data;
@@ -180,6 +168,18 @@ export default {
     }
   },
   computed: {
+    filteredQuestions() {
+      return this.dbQuestions.filter(question => 
+        question.title.toLowerCase().search(this.searchText.toLowerCase()) >= 0 && 
+        question.topic.toLowerCase().search(this.topicFilter.toLowerCase()) >= 0);
+    },
+    // async getReplies(id) {
+    //   const response = await axios.get(`/api/questions/${id}/replies`);
+    //   return response.data;
+    // },
+    thisQuestionID() {
+        return "Hello World!";
+    },
     questions() {
       let topicString = this.$root.$data.topicFilterGlobal;
       //let questions = this.getQuestions();
@@ -301,8 +301,10 @@ input {
   padding: 10px 10px;
   margin: 8px auto;
   width: 600px;
+}
 
-  cursor: pointer;
+#question:hover {
+  background-color: #f1f1f1;
 }
 
 .content {
@@ -311,6 +313,8 @@ input {
   margin-left: 20px;
   margin-right: auto;
   text-align: left;
+
+  cursor: pointer;
 }
 
 .content:after {
@@ -406,6 +410,22 @@ input {
   background-color: #bd3c3c8e;
 }
 
+.question-link {
+  text-decoration: none;
+  color: black;
+}
+
+.replies-link {
+  color: #20699cfd;
+}
+
+.replies-link:hover {
+  color: #4096d38c;
+}
+
+.replies-link:visited {
+  color: #20699cfd;
+}
 
 
 /* Tablet Styles */

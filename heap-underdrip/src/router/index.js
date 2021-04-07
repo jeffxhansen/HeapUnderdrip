@@ -12,9 +12,9 @@ const routes = [
   },*/
   {
     path: '/',
-    name: 'Questions',
+    name: 'newQuestions',
 
-    component: () => import('../views/Questions.vue')
+    component: () => import('../views/NewQuestions.vue')
   },
   {
     path: '/ask',
@@ -23,11 +23,18 @@ const routes = [
     component: () => import('../views/Ask.vue')
   },
   {
-    path: '/questions',
-    name: 'Questions',
+    path: '/newQuestions',
+    name: 'NewQuestions',
 
-    component: () => import('../views/Questions.vue')
-  }
+    component: () => import('../views/NewQuestions.vue')
+  },
+  {
+    path: '/singleQuestion',
+    name: 'SingleQuestion',
+    props: true,
+
+    component: () => import('../views/SingleQuestion.vue')
+  },
 ]
 
 const router = new VueRouter({

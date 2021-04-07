@@ -6,7 +6,8 @@
       </div>
       <div id="nav">
         <!-- <router-link to="/">Topics</router-link> | -->
-        <router-link :to="{ path: '/questions', params: this.$root.$data.topicFilterGlobal }">Questions</router-link> |
+        <router-link to="/newQuestions">Questions</router-link> |
+        <!-- <router-link :to="{ path: '/questions', params: this.$root.$data.topicFilterGlobal }">Questions</router-link> | -->
         <router-link to="/ask">Ask a Question</router-link>
       </div>
     </div>
@@ -95,6 +96,34 @@ input {
 
 ::placeholder {
   color: #aaa;
+}
+
+/* FOOTER
+---------------------------------------- */
+.footer {
+    margin-top: 80px;
+    margin-bottom: 0;
+    flex-shrink: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    flex-direction: column;
+}
+
+.footer img {
+    width: 60%;
+}
+  
+.footer-item {
+    padding: 10px 40px;
+    align-items: center;
+}
+
+.footer-item a {
+    font-weight: bolder;
+    color: black;
 }
 
 /* Tablet Styles */

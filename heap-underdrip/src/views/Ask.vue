@@ -28,9 +28,8 @@
       </div>
     </div>
     <div v-else>
-      <p>Thank you for submitting a question! The <router-link to="/questions">"Questions"</router-link> page has been update, and you can see it there!</p>
-      <p>Also, if you selected a topic that was not already present, it has been added to the <router-link to="/">"Topics"</router-link> page!</p>
-      <p>Finally, if you want to submit another questions just select <a v-on:click="refreshPage()"><router-link to="/ask">"Ask a Question"</router-link></a></p>
+      <p>Thank you for submitting a question! The <router-link to="/newQuestions">"Questions"</router-link> page has been update, and you can see it there!</p>
+      <p>Also, if you want to submit another questions just select <a v-on:click="refreshPage()"><router-link to="/ask">"Ask a Question"</router-link></a></p>
     </div>
 
   </div>
@@ -39,6 +38,7 @@
 
 <script>
 import moment from 'moment';
+import axios from 'axios';
 export default {
   name: 'Ask',
   data() {
@@ -80,7 +80,7 @@ export default {
     toggleCreating() {
       this.creating = !this.creating;
     },
-    addQuestion() {
+    /*addQuestion() {
       let size = this.$root.$data.questions.length;
       let tempID = size+1;
       let currDate = new Date();
@@ -97,7 +97,24 @@ export default {
       this.incrementQuestionCount(this.filter);
        
       this.toggleCreating();
-      
+    },*/
+    async addQuestion() {
+      let currDate = new Date();
+      currDate = moment(currDate).format("MMMM Do YY, h:mm a");
+
+      try {
+        await axios.post('api/questions', {
+          topic: this.filter, 
+          date: currDate, 
+          title: this.title,
+          body: this.body
+        })
+      }
+      catch (error) {
+        console.log(error);
+      }
+
+      this.toggleCreating();
     }
   },
   computed: {
