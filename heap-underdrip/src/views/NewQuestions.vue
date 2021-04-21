@@ -1,6 +1,6 @@
 <template>
   <div class="questions">
-    <h1>Welcom to my "completely original" forum website!</h1>
+    <h1>Welcome to my "completely original" forum website!</h1>
     <h3>Type in values in the "Topic Filter" or "Search Quesitons" forms to filter the questions</h3>
     <h4>And please feel free to <a><router-link to="/ask">"Ask a Question"</router-link></a> or reply to a question below!</h4>
     <!-- <h1>All Questions</h1> -->
@@ -25,8 +25,11 @@
             </router-link>
             <div class="info">
               <p>Topic: {{question.topic}}</p>
+              <P>Name: {{question.username}}</p>
               <p>Date: {{question.date}}</p>
-              <button v-on:click="removeQuestion(question.id)" id="resolve">Resolve Question</button>
+              <div v-if="question.username===currUser">
+                <button v-on:click="removeQuestion(question.id)" id="resolve">Resolve Question</button>
+              </div>
             </div>
             <router-link class="replies-link" :to="{ path: '/singleQuestion', query: { questionID: question.id } }">Replies...</router-link>
             <!-- <div class="replies" v-for="reply in getReplies(question.id)" :key="reply.id">
@@ -168,6 +171,15 @@ export default {
     }
   },
   computed: {
+    isAuthorized(questionName) {
+      console.log("questionName: " + questionName);
+      console.log("currUser: " + this.$root.$data.user.username);
+      if (questionName === this.$root.$data.user.username) return true;
+      else return false;
+    },
+    currUser() {
+      return this.$root.$data.user.username;
+    },
     filteredQuestions() {
       return this.dbQuestions.filter(question => 
         question.title.toLowerCase().search(this.searchText.toLowerCase()) >= 0 && 

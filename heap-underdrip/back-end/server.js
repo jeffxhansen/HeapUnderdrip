@@ -18,17 +18,38 @@ mongoose.connect('mongodb://localhost:27017/heap', {
   useNewUrlParser: true,
   useUnifiedTopology: true
 });
+
+const cookieParser = require("cookie-parser");
+app.use(cookieParser());
+
+const cookieSession = require('cookie-session');
+app.use(cookieSession({
+    name: 'session',
+    keys: [
+        'secretValue'
+    ],
+    cookie: {
+        maxAge: 24 * 60 * 60 * 1000 // 24 hours
+    }
+}));
+
+// import the users module and setup its API path
+const users = require("./users.js");
+app.use("/api/users", users.routes);
+
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
     // we're connected!
 });
 
+
 const questionSchema = new mongoose.Schema({
     topic: String,
     date: String,
     title: String,
-    body: String
+    body: String,
+    username: String
 });
 
 // create a virtual paramter that turns the default _id field into id
@@ -78,7 +99,8 @@ app.post('/api/questions', async (req, res) => {
         topic: req.body.topic,
         date: req.body.date,
         title: req.body.title,
-        body: req.body.body
+        body: req.body.body,
+        username: req.body.username,
     });
     try {
         await question.save();

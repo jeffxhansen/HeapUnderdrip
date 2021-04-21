@@ -1,38 +1,40 @@
 <template>
 <div class="ask">
   <h1>Ask a question form</h1>
-  <div class="wrapper">
-    <div v-if="creating">
-      <div class="ask-forum">
-        <div class="search">
-          <form class="pure-form">
-            <i class="fas fa-search"></i><input v-model="filter" placeholder="Topic: "/>
-          </form>
+  <div v-if="isLoggedIn">
+    <div class="wrapper">
+      <div v-if="creating">
+        <div class="ask-forum">
+          <div class="search">
+            <form class="pure-form">
+              <i class="fas fa-search"></i><input v-model="filter" placeholder="Topic: "/>
+            </form>
+          </div>
+          <div class="search">
+            <form class="pure-form">
+              <i class="fas fa-search"></i><input v-model="title" placeholder="Question title: "/>
+            </form>
+          </div>
+          <div class="search">
+            <form class="pure-form">
+              <i class="fas fa-search"></i><input v-model="body" placeholder="Question body: "/>
+            </form>
+          </div>
+          <button id="questionSubmit" v-on:click.prevent="addQuestion()">Submit</button>
         </div>
-        <div class="search">
-          <form class="pure-form">
-            <i class="fas fa-search"></i><input v-model="name" placeholder="Name: "/>
-          </form>
-        </div>
-        <div class="search">
-          <form class="pure-form">
-            <i class="fas fa-search"></i><input v-model="title" placeholder="Question title: "/>
-          </form>
-        </div>
-        <div class="search">
-          <form class="pure-form">
-            <i class="fas fa-search"></i><input v-model="body" placeholder="Question body: "/>
-          </form>
-        </div>
-        <button id="questionSubmit" v-on:click.prevent="addQuestion()">Submit</button>
       </div>
-    </div>
-    <div v-else>
-      <p>Thank you for submitting a question! The <router-link to="/newQuestions">"Questions"</router-link> page has been update, and you can see it there!</p>
-      <p>Also, if you want to submit another questions just select <a v-on:click="refreshPage()"><router-link to="/ask">"Ask a Question"</router-link></a></p>
-    </div>
+      <div v-else>
+        <p>Thank you for submitting a question! The <router-link to="/newQuestions">"Questions"</router-link> page has been update, and you can see it there!</p>
+        <p>Also, if you want to submit another questions just select <a v-on:click="refreshPage()"><router-link to="/ask">"Ask a Question"</router-link></a></p>
+      </div>
 
+    </div>
   </div>
+  <div v-else>
+    <p>Please <router-link to="/login">login or register</router-link> 
+    a new account to access this feature</p>
+  </div>
+  
 </div>
 </template>
 
@@ -107,7 +109,8 @@ export default {
           topic: this.filter, 
           date: currDate, 
           title: this.title,
-          body: this.body
+          body: this.body,
+          username: this.$root.$data.user.username,
         })
       }
       catch (error) {
@@ -120,6 +123,13 @@ export default {
   computed: {
     topics() {
       return this.$root.$topics;
+    },
+    isLoggedIn() {
+      if (this.$root.$data.user === null) return false;
+      else return true;
+    },
+    currUser() {
+      return this.$root.$data.user.username;
     }
   }
 }

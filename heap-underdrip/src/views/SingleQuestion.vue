@@ -12,14 +12,10 @@
               </div>
               <div class="info">
                   <p>Topic: {{topic}}</p>
+                  <P>Name: {{question.username}}</p>
                   <p>Date: {{date}}</p>
                   <button v-on-clickaway="" v-on:click="showDropdown()" class="replyButton dropbtn">Add Reply</button>
                   <div id="myDropdown" class="dropdown-content">
-                      <div class="reply-dropdown-item">
-                      <form class="pure-form">
-                          <i class="fas fa-search"></i><input v-model="username" placeholder="Name: "/>
-                      </form>
-                      </div>
                       <div class="reply-dropdown-item">
                       <form class="pure-form">
                           <i class="fas fa-search"></i><input v-model="replyContent" placeholder="Reply content: "/>
@@ -27,7 +23,9 @@
                       </div>
                       <button class="replyButton" v-on:click="addReply()">submit</button>
                   </div>
-                  <button v-on:click="removeQuestion()" id="resolve">Resolve Question</button>
+                  <div v-if="question.username===currUser">
+                    <button v-on:click="removeQuestion(question.id)" id="resolve">Resolve Question</button>
+                  </div>
               </div>
               <div class="replies" v-for="(reply, index) in replies" :key="reply.id">
                   <div class="reply">
@@ -36,12 +34,11 @@
                   <div class="info">
                       <p>Name: {{reply.username}}</p>
                       <p>Date: {{reply.date}}</p>
-                      <button v-on-clickaway="" v-on:click="showEditDropdown(index)" class="editButton dropbtn">Edit</button>
+                      <div v-if="reply.username===currUser">
+                        <button v-on-clickaway="" v-on:click="showEditDropdown(index)" class="editButton dropbtn">Edit</button>
+                      </div>
                       <div class="myEditDropdown edit-dropdown-content">
                           <div class="edit-dropdown-item">
-                          <form class="pure-form">
-                              <i class="fas fa-search"></i><input v-model="editName" placeholder="New name: "/>
-                          </form>
                           <form class="pure-form">
                               <i class="fas fa-search"></i><input v-model="editContent" placeholder="New text: "/>
                           </form>
@@ -119,7 +116,7 @@ export default {
 
                 await axios.post(`/api/questions/${this.thisText}/replies`, {
                     question: this.question,
-                    username: this.username,
+                    username: this.$root.$data.user.username,
                     text: this.replyContent,
                     date: currDate
                 });
@@ -154,13 +151,12 @@ export default {
         },
         async addEdit(index, id) {
             try {
-                console.log("SUUUUUP" + index + ", " + id);
                 let currDate = new Date();
                 currDate = moment(currDate).format("MMMM Do YY, h:mm a");
 
                 await axios.put(`/api/questions/${this.thisText}/replies/${id}`, {
                     question: this.question,
-                    username: this.editName,
+                    username: this.$root.$data.user.username,
                     text: this.editContent,
                     date: currDate
                 });
@@ -196,7 +192,10 @@ export default {
           else return false;
             //if (this.question == null) return 0;
             //else return 1;
-        }
+        },
+        currUser() {
+          return this.$root.$data.user.username;
+        },
     }
 }
 </script>

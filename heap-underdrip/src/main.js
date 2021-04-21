@@ -13,6 +13,7 @@ moment.suppressDeprecationWarnings = true;
 Vue.config.productionTip = false
 
 let data = {
+  user: null,
   topicFilterGlobal: '',
   searchid: 0, text: '',
   currTopic: '',

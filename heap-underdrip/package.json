@@ -9,8 +9,11 @@
   },
   "dependencies": {
     "@syncfusion/ej2-vue-dropdowns": "^18.4.48",
+    "argon2": "^0.27.2",
     "axios": "^0.21.1",
     "body-parser": "^1.19.0",
+    "cookie-parser": "^1.4.5",
+    "cookie-session": "^1.4.0",
     "core-js": "^3.6.5",
     "express": "^4.17.1",
     "moment": "^2.29.1",

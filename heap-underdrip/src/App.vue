@@ -5,9 +5,9 @@
         <img style="width: 300px; height: 70px;" src="@/assets/heap-underdrip-logo.png">
       </div>
       <div id="nav">
-        <!-- <router-link to="/">Topics</router-link> | -->
+        <div v-if="isLoggedIn"><router-link to="/login">Logout</router-link> |</div>
+        <div v-else><router-link to="/login">Login/Register</router-link> |</div>
         <router-link to="/newQuestions">Questions</router-link> |
-        <!-- <router-link :to="{ path: '/questions', params: this.$root.$data.topicFilterGlobal }">Questions</router-link> | -->
         <router-link to="/ask">Ask a Question</router-link>
       </div>
     </div>
@@ -29,6 +29,21 @@
     </div>
   </div>
 </template>
+
+<script>
+export default {
+    name: 'HomePage',
+    computed: {
+        isLoggedIn() {
+            if (this.$root.$data.user === null) return false;
+            else return true;
+        },
+        currUser() {
+            return this.$root.$data.user.username;
+        }
+    }
+}
+</script>
 
 
 <style>

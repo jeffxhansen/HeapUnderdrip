@@ -1,6 +1,6 @@
 <template>
   <div class="questions">
-    <h1>Welcom to my "completely original" forum website!</h1>
+    <h1>Welcome to my "completely original" forum website!</h1>
     <h3>Type in values in the "Topic Filter" or "Search Quesitons" forms to filter the questions</h3>
     <h4>And please feel free to <a><router-link to="/ask">"Ask a Question"</router-link></a> or reply to a question below!</h4>
     <!-- <h1>All Questions</h1> -->
